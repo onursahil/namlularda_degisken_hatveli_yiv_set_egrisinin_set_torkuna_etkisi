@@ -1,0 +1,1 @@
+# namlularda_degisken_hatveli_yiv_set_egrisinin_set_torkuna_etkisi
