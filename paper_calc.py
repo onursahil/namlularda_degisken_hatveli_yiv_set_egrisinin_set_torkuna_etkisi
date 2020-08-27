@@ -1,10 +1,14 @@
 from tkinter import *
 
 #Calculate piezometric efficiency
+def merminin_aldigi_yol(entry_list, piezometric_efficiency):
+    bullet_path = entry_list[4] * piezometric_efficiency
+    print(bullet_path)
+
 def piezometrik_verim(entry_list, barrel_internal_pressure):
     piezometric_efficiency = (barrel_internal_pressure / entry_list[3])
     print(piezometric_efficiency)
-    
+    merminin_aldigi_yol(entry_list, piezometric_efficiency)
 
 # Calculate barrel internal pressure
 def namlu_ic_basinci(entry_list):
