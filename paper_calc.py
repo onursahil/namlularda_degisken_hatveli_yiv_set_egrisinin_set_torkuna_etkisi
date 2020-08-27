@@ -1,8 +1,17 @@
 from tkinter import *
 
+#Calculate piezometric efficiency
+def piezometrik_verim(entry_list, barrel_internal_pressure):
+    piezometric_efficiency = (barrel_internal_pressure / entry_list[3])
+    print(piezometric_efficiency)
+    
+
 # Calculate barrel internal pressure
 def namlu_ic_basinci(entry_list):
-    barrel_internal_pressure = entry_list[0] + (0.5 * entry_list[1]) / ((2 * entry_list[4]) * )
+    barrel_internal_pressure = (entry_list[0] + (0.5 * entry_list[1]) / ((2 * entry_list[4]) * entry_list[5])) * (entry_list[2] ** 2)
+    print(barrel_internal_pressure)
+    piezometrik_verim(entry_list, barrel_internal_pressure)
+
 
 # Get the input variables from the user
 def show_entry_fields():
