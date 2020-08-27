@@ -1,7 +1,20 @@
 from tkinter import *
 
 def show_entry_fields():
-    print("Mermi Agirligi: %d\nMermi Basinci: %d" % (int(e1.get()), int(e2.get())))
+    # print("Mermi Agirligi: %s\nBarut Agirligi: %s" % (e1.get(), e2.get()))
+    mermi_agirligi = float(e1.get())
+    barut_agirligi = float(e2.get())
+    namlu_cikis_hizi = float(e3.get())
+    en_yuksek_basinc = float(e4.get())
+    mermi_yolu = float(e5.get())
+    namlu_capi = float(e6.get())
+    mermi_yaricapi = float(e7.get())
+    jirasyon_yaricapi = float(e8.get())
+    atalet_momenti = float(e9.get())
+    namlu_cikis_egimi = float(e10.get())
+    set_egrisi = float(e11.get())
+
+    print(mermi_agirligi, barut_agirligi, namlu_cikis_hizi, en_yuksek_basinc, mermi_yolu, namlu_capi, mermi_yaricapi, jirasyon_yaricapi, atalet_momenti, namlu_cikis_egimi, set_egrisi)
 
 master = Tk()
 Label(master, text="Mermi Agirligi").grid(row=0)
