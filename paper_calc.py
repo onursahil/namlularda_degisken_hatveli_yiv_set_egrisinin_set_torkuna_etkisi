@@ -1,5 +1,10 @@
 from tkinter import *
 
+# Calculate barrel internal pressure
+def namlu_ic_basinci(entry_list):
+    barrel_internal_pressure = entry_list[0] + (0.5 * entry_list[1]) / ((2 * entry_list[4]) * )
+
+# Get the input variables from the user
 def show_entry_fields():
     # print("Mermi Agirligi: %s\nBarut Agirligi: %s" % (e1.get(), e2.get()))
     mermi_agirligi = float(e1.get())
@@ -14,7 +19,9 @@ def show_entry_fields():
     namlu_cikis_egimi = float(e10.get())
     set_egrisi = float(e11.get())
 
-    print(mermi_agirligi, barut_agirligi, namlu_cikis_hizi, en_yuksek_basinc, mermi_yolu, namlu_capi, mermi_yaricapi, jirasyon_yaricapi, atalet_momenti, namlu_cikis_egimi, set_egrisi)
+    entry_list = [mermi_agirligi, barut_agirligi, namlu_cikis_hizi, en_yuksek_basinc, mermi_yolu, namlu_capi, mermi_yaricapi, jirasyon_yaricapi, atalet_momenti, namlu_cikis_egimi, set_egrisi]
+
+    namlu_ic_basinci(entry_list)
 
 master = Tk()
 Label(master, text="Mermi Agirligi").grid(row=0)
