@@ -1,10 +1,17 @@
 from tkinter import *
 
+# Calculate bullet pace
+def mermi_hizi(entry_list):
+    phi_n = 0.369528604257794
+    bullet_speed = entry_list[4] * phi_n
+    print(bullet_speed)
+
 # Calculate the time passed
 def time_consumed(entry_list):
     theta_n = 0.309166190434504
     time_passed = ((2 * entry_list[2]) / entry_list[4]) * theta_n
     print(time_passed)
+    mermi_hizi(entry_list)
 
 # Calculate piezometric efficiency
 def merminin_aldigi_yol(entry_list, piezometric_efficiency):
