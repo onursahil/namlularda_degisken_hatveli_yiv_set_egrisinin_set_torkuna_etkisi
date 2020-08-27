@@ -29,6 +29,7 @@ e9 = Entry(master)
 e10 = Entry(master)
 e11 = Entry(master)
 
+# Input Boxes
 e1.grid(row=0, column=1)
 e2.grid(row=1, column=1)
 e3.grid(row=2, column=1)
