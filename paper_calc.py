@@ -1,5 +1,10 @@
 from tkinter import *
 
+# Calculate the time that bullet spends until passes the barrel muzzle
+def mermi_namlu_suresi(entry_list):
+    Tn = 0.901376001603944
+    barrel_bullet_time = ((2 * entry_list[4]) / entry_list[2]) * Tn
+
 # Calculate bullet pace
 def mermi_hizi(entry_list):
     phi_n = 0.369528604257794
@@ -7,7 +12,7 @@ def mermi_hizi(entry_list):
     print(bullet_speed)
 
 # Calculate the time passed
-def time_consumed(entry_list):
+def harcanan_zaman(entry_list):
     theta_n = 0.309166190434504
     time_passed = ((2 * entry_list[2]) / entry_list[4]) * theta_n
     print(time_passed)
