@@ -4,12 +4,20 @@ from tkinter import *
 def mermi_namlu_suresi(entry_list):
     Tn = 0.901376001603944
     barrel_bullet_time = ((2 * entry_list[4]) / entry_list[2]) * Tn
+    print(barrel_bullet_time)
+
+def namlu_agzi_basinci(entry_list):
+    pi_n = 0.373057208515589
+    barrel_muzzle_pressure = entry_list[3] * pi_n
+    print(barrel_muzzle_pressure)
+    mermi_namlu_suresi(entry_list)
 
 # Calculate bullet pace
 def mermi_hizi(entry_list):
     phi_n = 0.369528604257794
     bullet_speed = entry_list[4] * phi_n
     print(bullet_speed)
+    namlu_agzi_basinci(entry_list)
 
 # Calculate the time passed
 def harcanan_zaman(entry_list):
@@ -24,7 +32,7 @@ def merminin_aldigi_yol(entry_list, piezometric_efficiency):
     bullet_path = entry_list[4] * piezometric_efficiency
     # bullet_path = entry_list[4] * sum_n
     print(bullet_path)
-    time_consumed(entry_list)
+    harcanan_zaman(entry_list)
 
 # Calculate piezometric efficiency
 def piezometrik_verim(entry_list, barrel_internal_pressure):
