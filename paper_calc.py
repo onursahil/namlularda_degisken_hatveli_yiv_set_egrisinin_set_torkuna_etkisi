@@ -1,52 +1,5 @@
 from tkinter import *
 
-# Calculate the time that bullet spends until passes the barrel muzzle
-def mermi_namlu_suresi(entry_list):
-    Tn = 0.901376001603944
-    barrel_bullet_time = ((2 * entry_list[4]) / entry_list[2]) * Tn
-    print(barrel_bullet_time)
-
-def namlu_agzi_basinci(entry_list):
-    pi_n = 0.373057208515589
-    barrel_muzzle_pressure = entry_list[3] * pi_n
-    print(barrel_muzzle_pressure)
-    mermi_namlu_suresi(entry_list)
-
-# Calculate bullet pace
-def mermi_hizi(entry_list):
-    phi_n = 0.369528604257794
-    bullet_speed = entry_list[4] * phi_n
-    print(bullet_speed)
-    namlu_agzi_basinci(entry_list)
-
-# Calculate the time passed
-def harcanan_zaman(entry_list):
-    theta_n = 0.309166190434504
-    time_passed = ((2 * entry_list[2]) / entry_list[4]) * theta_n
-    print(time_passed)
-    mermi_hizi(entry_list)
-
-# Calculate piezometric efficiency
-def merminin_aldigi_yol(entry_list, piezometric_efficiency):
-    sum_n = 0.0619599400554037
-    bullet_path = entry_list[4] * piezometric_efficiency
-    # bullet_path = entry_list[4] * sum_n
-    print(bullet_path)
-    harcanan_zaman(entry_list)
-
-# Calculate piezometric efficiency
-def piezometrik_verim(entry_list, barrel_internal_pressure):
-    piezometric_efficiency = (barrel_internal_pressure / entry_list[3])
-    print(piezometric_efficiency)
-    merminin_aldigi_yol(entry_list, piezometric_efficiency)
-
-# Calculate barrel internal pressure
-def namlu_ic_basinci(entry_list):
-    barrel_internal_pressure = (entry_list[0] + (0.5 * entry_list[1]) / ((2 * entry_list[4]) * entry_list[5])) * (entry_list[2] ** 2)
-    print(barrel_internal_pressure)
-    piezometrik_verim(entry_list, barrel_internal_pressure)
-
-
 # Get the input variables from the user
 def show_entry_fields():
     # print("Mermi Agirligi: %s\nBarut Agirligi: %s" % (e1.get(), e2.get()))
@@ -56,28 +9,35 @@ def show_entry_fields():
     en_yuksek_basinc = float(e4.get())
     mermi_yolu = float(e5.get())
     namlu_capi = float(e6.get())
-    mermi_yaricapi = float(e7.get())
-    jirasyon_yaricapi = float(e8.get())
-    atalet_momenti = float(e9.get())
-    namlu_cikis_egimi = float(e10.get())
-    set_egrisi = float(e11.get())
+    # mermi_yaricapi = float(e7.get())
+    # jirasyon_yaricapi = float(e8.get())
+    # atalet_momenti = float(e9.get())
+    # namlu_cikis_egimi = float(e10.get())
+    # set_egrisi = float(e11.get())
 
-    entry_list = [mermi_agirligi, barut_agirligi, namlu_cikis_hizi, en_yuksek_basinc, mermi_yolu, namlu_capi, mermi_yaricapi, jirasyon_yaricapi, atalet_momenti, namlu_cikis_egimi, set_egrisi]
-
-    namlu_ic_basinci(entry_list)
+    entry_list = [mermi_agirligi, barut_agirligi, namlu_cikis_hizi, en_yuksek_basinc, mermi_yolu, namlu_capi] #, mermi_yaricapi, jirasyon_yaricapi, atalet_momenti, namlu_cikis_egimi, set_egrisi]
 
 master = Tk()
-Label(master, text="Mermi Agirligi").grid(row=0)
-Label(master, text="Barut Agirligi").grid(row=1)
-Label(master, text="Merminin Namlu Çıkış Hızı").grid(row=2)
-Label(master, text="Barutun Verdiği En Yüksek Basınç").grid(row=3)
-Label(master, text="Mermi Yolu").grid(row=4)
-Label(master, text="Namlu Çapı").grid(row=5)
-Label(master, text="Mermi Yarıçapı").grid(row=6)
-Label(master, text="Mermi Kutupsal Jirasyon Yarıçapı").grid(row=7)
-Label(master, text="Merminin Eksenel Atalet Momenti").grid(row=8)
-Label(master, text="Yiv Set Namlu Çıkış Eğimi").grid(row=9)
-Label(master, text="Yiv Set Eğrisi n Üssü").grid(row=10)
+# master.grid_rowconfigure(0, weight=1)
+# master.grid_columnconfigure(0, weight=1)
+n_rows = 7
+n_columns = 2
+for i in range(n_rows):
+    master.grid_rowconfigure(i,  weight = 1)
+for i in range(n_columns):
+    master.grid_columnconfigure(i,  weight = 1)
+
+Label(master, text="Mermi Agirligi(gr)").grid()
+Label(master, text="Barut Agirligi(gr)").grid()
+Label(master, text="Merminin Namlu Çıkış Hızı(m/s)").grid()
+Label(master, text="Barutun Verdiği En Yüksek Basınç(Mpa)").grid()
+Label(master, text="Mermi Yolu(mm)").grid()
+Label(master, text="Namlu Çapı(mm)").grid()
+# Label(master, text="Mermi Yarıçapı").grid(row=6)
+# Label(master, text="Mermi Kutupsal Jirasyon Yarıçapı").grid(row=7)
+# Label(master, text="Merminin Eksenel Atalet Momenti").grid(row=8)
+# Label(master, text="Yiv Set Namlu Çıkış Eğimi").grid(row=9)
+# Label(master, text="Yiv Set Eğrisi n Üssü").grid(row=10)
 
 
 e1 = Entry(master)
@@ -86,11 +46,11 @@ e3 = Entry(master)
 e4 = Entry(master)
 e5 = Entry(master)
 e6 = Entry(master)
-e7 = Entry(master)
-e8 = Entry(master)
-e9 = Entry(master)
-e10 = Entry(master)
-e11 = Entry(master)
+# e7 = Entry(master)
+# e8 = Entry(master)
+# e9 = Entry(master)
+# e10 = Entry(master)
+# e11 = Entry(master)
 
 # Input Boxes
 e1.grid(row=0, column=1)
@@ -99,12 +59,12 @@ e3.grid(row=2, column=1)
 e4.grid(row=3, column=1)
 e5.grid(row=4, column=1)
 e6.grid(row=5, column=1)
-e7.grid(row=6, column=1)
-e8.grid(row=7, column=1)
-e9.grid(row=8, column=1)
-e10.grid(row=9, column=1)
-e11.grid(row=10, column=1)
+# e7.grid(row=6, column=1)
+# e8.grid(row=7, column=1)
+# e9.grid(row=8, column=1)
+# e10.grid(row=9, column=1)
+# e11.grid(row=10, column=1)
 
-Button(master, text='Show', command=show_entry_fields).grid(row=11, column=1, sticky=W, pady=4)
+Button(master, text='Show', command=show_entry_fields).grid(row=7, column=1, sticky=W, pady=4)
 
 master.mainloop()
