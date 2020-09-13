@@ -46,13 +46,9 @@ def entelpolasyon(np, entry_list, heydenreich_dict):
     ent_pi = entelpolasyon_sum(np, np_down, np_up, pi_sum_down, pi_sum_up)
     ent_t = entelpolasyon_sum(np, np_down, np_up, t_sum_down, t_sum_up)
 
-    print('\n')
-    print(ent_np)
-    print(ent_theta)
-    print(ent_phi)
-    print(ent_pi)
-    print(ent_t)
-    
+    ent_list = [ent_np, ent_theta, ent_phi, ent_pi, ent_t]
+
+    return ent_list
 
 # Piezometrik verim hesaplanmasi
 def piezometrik_verim(entry_list, P0):
@@ -84,7 +80,7 @@ def namlu_kesit_alani(entry_list):
     return A
 
 # Get the input variables from the user
-def show_entry_fields():
+def show_entry_fields(entry_comps):
     # print("Mermi Agirligi: %s\nBarut Agirligi: %s" % (e1.get(), e2.get()))
     mermi_agirligi = float(e1.get())
     barut_agirligi = float(e2.get())
@@ -108,12 +104,30 @@ def show_entry_fields():
     heydenreich_dict = gen_heydenreich()
     print(heydenreich_dict)
 
-    entelpolasyon(np, entry_list, heydenreich_dict)
+    ent_list = entelpolasyon(np, entry_list, heydenreich_dict)
+
+    x1 = mermi_yolu * ent_list[0]
+    t1 = ((2 * mermi_yolu) / namlu_cikis_hizi) * ent_list[1]
+    v1 = namlu_cikis_hizi * ent_list[2]
+    pe = (P0 / (10 ** 6)) * ent_list[3]
+    te = ((2 * mermi_yolu) / namlu_cikis_hizi) * ent_list[3]
+
+    lmda = mermi_yolu / x1
+
+    for label in master.grid_slaves():
+        label.grid_forget()
+
+    for comp in entry_comps:
+        comp.destroy()
+
+    Label(master, text="Merminin namlu icinde almis oldugu yol x1: " + str(x1)).grid(row=0)
+    Label(master, text="Merminin namlu icinde gecirdigi zaman t1: " + str(t1)).grid(row=1)
+    Label(master, text="Mermi Hizi V1: " + str(v1)).grid(row=2)
+    Label(master, text="Namlu agzi basinci Pe: " + str(pe)).grid(row=3)
+    Label(master, text="Merminin namlu icinde gecirdigi toplam sure Te: " + str(te)).grid(row=4)
 
 
 master = Tk()
-# master.grid_rowconfigure(0, weight=1)
-# master.grid_columnconfigure(0, weight=1)
 n_rows = 7
 n_columns = 2
 for i in range(n_rows):
@@ -159,6 +173,8 @@ e6.grid(row=5, column=1)
 # e10.grid(row=9, column=1)
 # e11.grid(row=10, column=1)
 
-Button(master, text='Show', command=show_entry_fields).grid(row=6, column=1, sticky=W, pady=4)
+entry_comps = [e1, e2, e3, e4, e5, e6]
+
+Button(master, text='Show', command=lambda: show_entry_fields(entry_comps)).grid(row=6, column=1, sticky=W, pady=4)
 
 master.mainloop()
