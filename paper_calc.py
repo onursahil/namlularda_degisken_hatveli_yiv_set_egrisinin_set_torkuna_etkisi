@@ -1,6 +1,7 @@
 from tkinter import *
 import math
 from generate_heydenreich import gen_heydenreich
+from internal_ballistic_factors import ballistic_factors
 
 def entelpolasyon_sum(np, a, b, c, d):
     result = (((np - a) * (d - c)) / (b - a)) + c
@@ -95,14 +96,12 @@ def show_entry_fields(entry_comps):
     # set_egrisi = float(e11.get())
 
     entry_list = [mermi_agirligi, barut_agirligi, namlu_cikis_hizi, en_yuksek_basinc, mermi_yolu, namlu_capi] #, mermi_yaricapi, jirasyon_yaricapi, atalet_momenti, namlu_cikis_egimi, set_egrisi]
-    print(entry_list)
 
     A = namlu_kesit_alani(entry_list)
     P0 = namlu_ic_basinci(entry_list, A)
     np = piezometrik_verim(entry_list, P0)
 
     heydenreich_dict = gen_heydenreich()
-    print(heydenreich_dict)
 
     ent_list = entelpolasyon(np, entry_list, heydenreich_dict)
 
@@ -125,6 +124,10 @@ def show_entry_fields(entry_comps):
     Label(master, text="Mermi Hizi V1: " + str(v1)).grid(row=2)
     Label(master, text="Namlu agzi basinci Pe: " + str(pe)).grid(row=3)
     Label(master, text="Merminin namlu icinde gecirdigi toplam sure Te: " + str(te)).grid(row=4)
+
+    ballistic_chart = ballistic_factors()
+    
+
 
 
 master = Tk()
