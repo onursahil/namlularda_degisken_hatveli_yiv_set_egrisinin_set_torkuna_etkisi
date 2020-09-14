@@ -2,6 +2,61 @@ from tkinter import *
 import math
 from generate_heydenreich import gen_heydenreich
 from internal_ballistic_factors import ballistic_factors
+import matplotlib.pyplot as plt
+
+def display_x_y(P_list, V_list, t_list, x_list):
+    for label in master.grid_slaves():
+        label.grid_forget()
+
+    for comp in entry_comps:
+        comp.destroy()
+
+    plot1 = plt.figure(1)
+    # plt.plot(x_list)
+    # plt.plot(P_list)
+    plt.plot(x_list, P_list)
+    plt.plot(x_list, V_list)
+    plt.xlabel("Mermi Yolu, x, mm")
+    plt.ylabel("Basinc, P, MPa")
+    # plt.xlabel("Mermi Yolu, x, mm")
+    # plt.ylabel("Basinc, P, MPa")
+
+    plot2 = plt.figure(2)
+    # plt.plot(x_list)
+    # plt.plot(V_list)
+    plt.plot(x_list, t_list)
+    plt.xlabel("Mermi Yolu, x, mm")
+    plt.ylabel("Zaman, t, ms")
+    # plt.xlabel("Mermi Yolu, x, mm")
+    # plt.ylabel("Hiz, V, m/s")
+
+    # plot3 = plt.figure(3)
+    # plt.plot(x_list)
+    # plt.plot(t_list)
+    # plt.xlabel("Mermi Yolu, x, mm")
+    # plt.ylabel("Zaman, t, ms")
+
+    plt.show()
+
+def lambda_entelpolasyon(lmda, ballistic_chart, x1, v1, t1, Pm):
+    P_list = []
+    V_list = []
+    t_list = []
+    x_list = []
+
+    lambda_list = ballistic_chart['lambda']
+    psi_list = ballistic_chart['psi']
+    phi_list = ballistic_chart['phi']
+    delta_list = ballistic_chart['delta']
+
+    for i in range(len(lambda_list)):
+        if lambda_list[i] <= lmda:
+            P_list.append(Pm * psi_list[i])
+            V_list.append(v1 * phi_list[i])
+            t_list.append(t1 * delta_list[i])
+            x_list.append(lambda_list[i] * x1)
+    
+    return P_list, V_list, t_list, x_list
 
 def entelpolasyon_sum(np, a, b, c, d):
     result = (((np - a) * (d - c)) / (b - a)) + c
@@ -126,7 +181,10 @@ def show_entry_fields(entry_comps):
     Label(master, text="Merminin namlu icinde gecirdigi toplam sure Te: " + str(te)).grid(row=4)
 
     ballistic_chart = ballistic_factors()
-    
+    P_list, V_list, t_list, x_list = lambda_entelpolasyon(lmda, ballistic_chart, x1, v1, t1, en_yuksek_basinc)
+    print(P_list, V_list, t_list, x_list)
+
+    Button(master, text='Show Graph', command=lambda: display_x_y(P_list, V_list, t_list, x_list)).grid(row=6, column=1, sticky=W, pady=4)
 
 
 
