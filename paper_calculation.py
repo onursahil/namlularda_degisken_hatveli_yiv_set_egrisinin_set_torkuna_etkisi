@@ -4,39 +4,111 @@ from generate_heydenreich import gen_heydenreich
 from internal_ballistic_factors import ballistic_factors
 import matplotlib.pyplot as plt
 
-def display_x_y(P_list, V_list, t_list, x_list):
+def yiv_grafik(x_list, y_list, tork_list):
+    plot1 = plt.figure(1)
+    plt.title("Yiv Set Mesafesi")
+    plt.plot(x_list, y_list)
+    plt.xlabel("X Yiv - Set mesafesi (mm)")
+    plt.ylabel("Acisal Ivme (rad / s^2)")
+    plt.savefig('yiv_set_mesafesi.png')
+
+    plot2 = plt.figure(2)
+    plt.title("Setlere Etkiyen Tork")
+    plt.plot(x_list, tork_list)
+    plt.xlabel("X Yiv - Set mesafesi (mm)")
+    plt.ylabel("Tork (Nm)")
+    plt.savefig("setlere_etkiyen_tork.png")
+
+    plt.show()
+    
+    master.quit()
+
+def yiv_hesaplama(x_list, V_list, P_list, yiv_pack):
     for label in master.grid_slaves():
         label.grid_forget()
 
     for comp in entry_comps:
         comp.destroy()
 
+    mermi_yaricapi = float(yiv_pack[0].get())
+    jirasyon_yaricapi = float(yiv_pack[1].get())
+    atalet_momenti = float(yiv_pack[2].get())
+    cikis_egimi = float(yiv_pack[3].get())
+    set_egrisi = float(yiv_pack[4].get())
+    kesit_alani = float(yiv_pack[5].get())
+    mermi_yolu = float(yiv_pack[6].get())
+    mermi_kutlesi = float(yiv_pack[7].get())
+
+    yiv_list = [mermi_yaricapi, jirasyon_yaricapi, atalet_momenti, cikis_egimi, set_egrisi, kesit_alani, mermi_yolu, mermi_kutlesi]
+
+    y_list = []
+    tan_alpha = []
+    drv_tan = []
+    tork_list = []
+
+    for i in range(len(x_list)):
+        y_list.append((math.tan(yiv_list[3]) / ((yiv_list[6] / (10 ** 3)) ** (yiv_list[4] - 1))) * ((x_list[i] / (10 ** 3)) ** (yiv_list[4] - 1)))
+        tan_alpha.append((math.tan(yiv_list[3]) / (yiv_list[6] / (10 ** 3)) ** (yiv_list[4] - 1)) * (x_list[i] ** (yiv_list[4] - 1)))
+        drv_tan.append(((abs(yiv_list[4] - 1) * math.tan(yiv_list[3])) / ((yiv_list[6] / (10 ** 3)) ** abs(yiv_list[4] - 1))) * (x_list[i] ** abs(yiv_list[4] - 2)))
+    for i in range(len(V_list)):
+        tork_list.append(((yiv_list[7]) * ((yiv_list[1] ** 2) / yiv_list[0])) * (((yiv_list[5] * (P_list[i] * (10 ** 6))) / (yiv_list[7]) * tan_alpha[i]) + ((V_list[i] ** 2) * drv_tan[i])))
+
+    Button(master, text='Yiv Set Grafikleri', command=lambda: yiv_grafik(x_list, y_list, tork_list)).grid(row=6, column=1, sticky=W, pady=4)
+
+def display_x_y(P_list, V_list, t_list, x_list):
     plot1 = plt.figure(1)
-    # plt.plot(x_list)
-    # plt.plot(P_list)
     plt.plot(x_list, P_list)
     plt.plot(x_list, V_list)
     plt.xlabel("Mermi Yolu, x, mm")
     plt.ylabel("Basinc, P, MPa")
-    # plt.xlabel("Mermi Yolu, x, mm")
-    # plt.ylabel("Basinc, P, MPa")
+    plt.savefig("mermi_yolu-basinc.png")
 
     plot2 = plt.figure(2)
-    # plt.plot(x_list)
-    # plt.plot(V_list)
     plt.plot(x_list, t_list)
     plt.xlabel("Mermi Yolu, x, mm")
     plt.ylabel("Zaman, t, ms")
-    # plt.xlabel("Mermi Yolu, x, mm")
-    # plt.ylabel("Hiz, V, m/s")
-
-    # plot3 = plt.figure(3)
-    # plt.plot(x_list)
-    # plt.plot(t_list)
-    # plt.xlabel("Mermi Yolu, x, mm")
-    # plt.ylabel("Zaman, t, ms")
+    plt.savefig("mermi_yolu-zaman.png")
 
     plt.show()
+
+    for label in master.grid_slaves():
+        label.grid_forget()
+
+    for comp in entry_comps:
+        comp.destroy()
+
+    Label(master, text="Mermi Yarıçapı").grid(row=0)
+    Label(master, text="Mermi Kutupsal Jirasyon Yarıçapı").grid(row=1)
+    Label(master, text="Merminin Eksenel Atalet Momenti").grid(row=2)
+    Label(master, text="Yiv Set Namlu Çıkış Eğimi").grid(row=3)
+    Label(master, text="Yiv Set Eğrisi n Üssü").grid(row=4)
+    Label(master, text="Namlu Kesit Alani").grid(row=5)
+    Label(master, text="Mermi Yolu").grid(row=6)
+    Label(master, text="Mermi Kutlesi").grid(row=7)
+
+
+    e7 = Entry(master)
+    e8 = Entry(master)
+    e9 = Entry(master)
+    e10 = Entry(master)
+    e11 = Entry(master)
+    e12 = Entry(master)
+    e13 = Entry(master)
+    e14 = Entry(master)
+
+    e7.grid(row=0, column=1)
+    e8.grid(row=1, column=1)
+    e9.grid(row=2, column=1)
+    e10.grid(row=3, column=1)
+    e11.grid(row=4, column=1)
+    e12.grid(row=5, column=1)
+    e13.grid(row=6, column=1)
+    e14.grid(row=7, column=1)
+
+    yiv_pack = [e7, e8, e9, e10, e11, e12, e13, e14]
+
+    Button(master, text='Yiv Set Egrisi Hesaplamalari', command=lambda: yiv_hesaplama(x_list, V_list, P_list, yiv_pack)).grid(row=8, column=1, sticky=W, pady=4)
+    
 
 def lambda_entelpolasyon(lmda, ballistic_chart, x1, v1, t1, Pm):
     P_list = []
@@ -202,11 +274,6 @@ Label(master, text="Merminin Namlu Çıkış Hızı(m/s)").grid(row=2)
 Label(master, text="Barutun Verdiği En Yüksek Basınç(Mpa)").grid(row=3)
 Label(master, text="Mermi Yolu(mm)").grid(row=4)
 Label(master, text="Namlu Çapı(mm)").grid(row=5)
-# Label(master, text="Mermi Yarıçapı").grid(row=6)
-# Label(master, text="Mermi Kutupsal Jirasyon Yarıçapı").grid(row=7)
-# Label(master, text="Merminin Eksenel Atalet Momenti").grid(row=8)
-# Label(master, text="Yiv Set Namlu Çıkış Eğimi").grid(row=9)
-# Label(master, text="Yiv Set Eğrisi n Üssü").grid(row=10)
 
 
 e1 = Entry(master)
@@ -215,11 +282,6 @@ e3 = Entry(master)
 e4 = Entry(master)
 e5 = Entry(master)
 e6 = Entry(master)
-# e7 = Entry(master)
-# e8 = Entry(master)
-# e9 = Entry(master)
-# e10 = Entry(master)
-# e11 = Entry(master)
 
 # Input Boxes
 e1.grid(row=0, column=1)
@@ -228,11 +290,6 @@ e3.grid(row=2, column=1)
 e4.grid(row=3, column=1)
 e5.grid(row=4, column=1)
 e6.grid(row=5, column=1)
-# e7.grid(row=6, column=1)
-# e8.grid(row=7, column=1)
-# e9.grid(row=8, column=1)
-# e10.grid(row=9, column=1)
-# e11.grid(row=10, column=1)
 
 entry_comps = [e1, e2, e3, e4, e5, e6]
 
