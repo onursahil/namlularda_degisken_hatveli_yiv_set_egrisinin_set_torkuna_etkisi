@@ -58,12 +58,17 @@ def yiv_hesaplama(x_list, V_list, P_list, yiv_pack):
 def display_x_y(P_list, V_list, t_list, x_list):
     plot1 = plt.figure(1)
     plt.plot(x_list, P_list)
-    plt.plot(x_list, V_list)
     plt.xlabel("Mermi Yolu, x, mm")
     plt.ylabel("Basinc, P, MPa")
     plt.savefig("mermi_yolu-basinc.png")
 
     plot2 = plt.figure(2)
+    plt.plot(x_list, V_list)
+    plt.xlabel("Mermi Yolu, x, mm")
+    plt.ylabel("Hiz, V, m/s")
+    plt.savefig("mermi_yolu_hiz.png")
+
+    plot3 = plt.figure(3)
     plt.plot(x_list, t_list)
     plt.xlabel("Mermi Yolu, x, mm")
     plt.ylabel("Zaman, t, ms")
@@ -255,6 +260,7 @@ def show_entry_fields(entry_comps):
 
 
 master = Tk()
+master.title("Namlu-Yiv Egri Hesaplamalari")
 n_rows = 7
 n_columns = 2
 for i in range(n_rows):
