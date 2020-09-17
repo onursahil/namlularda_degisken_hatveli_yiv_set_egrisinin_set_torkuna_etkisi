@@ -69,7 +69,7 @@ def display_x_y(P_list, V_list, t_list, x_list):
     plt.ylabel("Zaman, t, ms")
     plt.savefig("mermi_yolu-zaman.png")
 
-    plt.show()
+    plt.show(block=False)
 
     for label in master.grid_slaves():
         label.grid_forget()
@@ -209,18 +209,12 @@ def namlu_kesit_alani(entry_list):
 
 # Get the input variables from the user
 def show_entry_fields(entry_comps):
-    # print("Mermi Agirligi: %s\nBarut Agirligi: %s" % (e1.get(), e2.get()))
     mermi_agirligi = float(e1.get())
     barut_agirligi = float(e2.get())
     namlu_cikis_hizi = float(e3.get())
     en_yuksek_basinc = float(e4.get())
     mermi_yolu = float(e5.get())
     namlu_capi = float(e6.get())
-    # mermi_yaricapi = float(e7.get())
-    # jirasyon_yaricapi = float(e8.get())
-    # atalet_momenti = float(e9.get())
-    # namlu_cikis_egimi = float(e10.get())
-    # set_egrisi = float(e11.get())
 
     entry_list = [mermi_agirligi, barut_agirligi, namlu_cikis_hizi, en_yuksek_basinc, mermi_yolu, namlu_capi] #, mermi_yaricapi, jirasyon_yaricapi, atalet_momenti, namlu_cikis_egimi, set_egrisi]
 
